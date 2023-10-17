@@ -50,6 +50,7 @@ public class ListController {
     public String listJobsByColumnAndValue(Model model, @RequestParam String column, @RequestParam(required = false) String value) {
         ArrayList<Job> jobs;
         if (column.equals("all")){
+            //could
             jobs = JobData.findAll();
             model.addAttribute("title", "All Jobs");
         } else {

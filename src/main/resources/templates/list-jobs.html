@@ -12,27 +12,27 @@
     <th:block th:each = "job : ${jobs}">
         <table class="job-listing">
             <tr>
-                <td>ID</td>
+                <td th:text ="ID"></td>
                 <td th:text = "${job.id}"></td>
             </tr>
             <tr>
-                <td>Name</td>
+                <td th:text ="Name"></td>
                 <td th:text = "${job.name}"></td>
             </tr>
             <tr>
-                <td>Employer</td>
+                <td th:text ="Employer"></td>
                 <td th:text = "${job.employer}"></td>
             </tr>
             <tr>
-                <td>Location</td>
+                <td th:text ="Location"></td>
                 <td th:text = "${job.location}"></td>
             </tr>
             <tr>
-                <td>Position Type</td>
+                <td th:text ="'Position Type'"></td>
                 <td th:text = "${job.positionType}"></td>
             </tr>
             <tr>
-                <td>Skill</td>
+                <td th:text ="Skill"></td>
                 <td th:text = "${job.coreCompetency}"></td>
             </tr>
         </table>

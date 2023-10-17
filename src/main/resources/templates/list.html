@@ -24,7 +24,9 @@
       <!--    TODO #2.2 Test your code by clicking View all in the table. 98 jobs in data file.-->
 
 
-    <td></td> <!-- Feel free to remove or modify this element if necessary. -->
+    <td>
+        <a th:href="@{/list/jobs(column=all)}" th:text="'View All Jobs'"></a>
+    </td>
 
     <td th:each="category : ${tableChoices}">
       <ul>
