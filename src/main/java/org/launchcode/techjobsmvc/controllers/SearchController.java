@@ -1,9 +1,15 @@
 package org.launchcode.techjobsmvc.controllers;
 
+import org.launchcode.techjobsmvc.models.Job;
+import org.launchcode.techjobsmvc.models.JobData;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.ArrayList;
 
 import static org.launchcode.techjobsmvc.controllers.ListController.columnChoices;
 
@@ -14,29 +20,32 @@ import static org.launchcode.techjobsmvc.controllers.ListController.columnChoice
 @Controller
 @RequestMapping("search")
 public class SearchController {
-
+    //Render the search page with column choices using search.html template
     @GetMapping(value = "")
     public String search(Model model) {
         model.addAttribute("columns", columnChoices);
         return "search";
     }
 
-    // TODO #3 Create a handler to process a search request and render the updated search view.
-    /* TODO #3.1 Use the correct annotation for the method. To configure the correct mapping type and mapping  route,
-        refer to the form tag in the search.html template. Use @GetMapping or @PostMapping rather than @Request Mapping
-     */
-    // TODO #3.2 - The displaySearchResults method should take in a Model parameter
-    // TODO #3.3 The method should also take in two other parameters, specifying the type of search and the search term.
-    /* TODO #3.4 In order for these last two parameters to be properly passed into Spring Boot, you need to use the
-        correct annotation. Also, you need to name them appropriately, based on the corresponding form field names
-        defined in search.html
-     */
-    /* TODO #3.5 If the user enters "all" in the search box, or if they leave the box empty, call the findAll() method
-        from JobData. Otherwise, send the search information to findByColumnAndValue. In either case, store results
-        in a jobs ArrayList.
-     */
-    // TODO #3.6 Pass jobs into the search.html view via the model parameter
-    // TODO #3.7 Pass ListController.columnChoices into the view, as the existing search handler does
+    @PostMapping ("results")
+    public String displaySearchResults(Model model, @RequestParam String searchType, @RequestParam(required = false) String searchTerm) {
+        ArrayList<Job> jobs;
+        //TODO: Test that all with Ruby works
+        if (searchType.equals("all") && (!searchTerm.isEmpty())){
+            jobs = JobData.findByValue(searchTerm);
+        } else if (searchType.equals("all")){
+            jobs = JobData.findAll();
+            model.addAttribute("title", "All Jobs");
+        }
+        else {
+            jobs = JobData.findByColumnAndValue(searchType, searchTerm);
+            model.addAttribute("title", "Jobs with " + columnChoices.get(searchType) + ": " + searchTerm);
+        }
+        model.addAttribute("columns", columnChoices);
+        model.addAttribute("jobs", jobs);
+
+        return "search";
+    }
 
 }
 
